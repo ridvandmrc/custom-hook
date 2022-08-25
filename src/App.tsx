@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef } from "react";
+import { useListData } from "./hooks";
 
-function App() {
+export const App = () => {
+  const { data, addData, resetData } = useListData();
+  const title = useRef(null);
+  const desc = useRef(null);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data.map((item, index) => (
+        <div key={index} style={{ margin: "20px" }}>
+          {item.title} - {item.desc}
+        </div>
+      ))}
+      <input style={{ margin: "15px" }} placeholder="title" ref={title} />
+      <input style={{ margin: "15px" }} placeholder="desc" ref={desc} /> <br />
+      <button
+        style={{ margin: "15px" }}
+        onClick={() =>
+          addData((title.current as any).value, (desc.current as any).value)
+        }
+      >
+        Update Data
+      </button>
+      <button style={{ margin: "15px" }} onClick={() => resetData()}>
+        Reset Data
+      </button>
     </div>
   );
-}
-
-export default App;
+};
